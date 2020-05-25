@@ -1,4 +1,14 @@
 # https://towardsdatascience.com/building-neural-network-using-pytorch-84f6e75f9a
+
+# train our data set
+# training
+# payoff, game, create prediction of of attack
+# loss function
+
+# look at the tutorials for training data set
+
+# no convolutions
+
 from torch import nn
 from collections import OrderedDict
 
@@ -15,6 +25,7 @@ class Network(nn.Module):
         # Define sigmoid activation and softmax output 
         self.sigmoid = nn.Sigmoid() # sigmoid activation
         self.softmax = nn.Softmax(dim=1) # softmax across columns
+        self.loss = nn.L1Loss()
         
     def forward(self, x): # x is input tensor
         # Pass the input tensor through each of our operations
@@ -22,6 +33,7 @@ class Network(nn.Module):
         x = self.sigmoid(x)
         x = self.output(x)
         x = self.softmax(x)
+        x = self.L1Loss(x)
         
         return x
 
