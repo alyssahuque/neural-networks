@@ -25,6 +25,10 @@ from collections import OrderedDict
 import torch.nn.functional as F
 from torchvision import datasets, transforms
 
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+
 class Network(nn.Module):
     def __init__(self):
         super().__init__()
@@ -78,7 +82,7 @@ def main():
     transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,)),])
 
     # Download and load the training data\
-    trainset = datasets.MNIST('~/Users/alyssahuque/Downloads/Data/8Target-3Resource/Group1/Game_1', download=True, train=True, transform=transform)
+    trainset = datasets.MNIST('~/Users/alyssahuque/Downloads/Data/24Target-9Resource/Group1/Set1/Game_1', download=True, train=True, transform=transform)
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=64, shuffle=True)
 
     model = nn.Sequential(nn.Linear(784, 128),nn.ReLU(),nn.Linear(128, 64),nn.ReLU(),nn.Linear(64, 10),nn.LogSoftmax(dim=1))
@@ -86,8 +90,8 @@ def main():
     criterion = nn.NLLLoss()
     # Optimizers require the parameters to optimize and a learning rate
     optimizer = torch.optim.SGD(model.parameters(), lr=0.003)
-    epochs = 5
-    for e in range(epochs):
+    xaxis = []
+    for e in range(5):
     	running_loss = 0
     	for data, labels in trainloader:
     		# Flatten MNIST data into a 784 long vector
@@ -104,6 +108,26 @@ def main():
     		running_loss += loss.item()
     	else:
     		print(f"Training loss: {running_loss/len(trainloader)}")
+    		xaxis.append(running_loss/len(trainloader))
+
+    	
+    # x axis values 
+    x = xaxis
+    # corresponding y axis values 
+    y = [1,2,3,4,5]
+
+    # plotting the points  
+    plt.plot(x, y) 
+    # naming the x axis 
+    plt.xlabel('training loss') 
+    # naming the y axis 
+    plt.ylabel('each backward pass') 
+
+    # giving a title to my graph 
+    plt.title('Training DNN') 
+
+    # function to show the plot 
+    plt.show()
 
 if __name__ == "__main__":
     main()
