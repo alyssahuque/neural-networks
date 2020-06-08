@@ -1,24 +1,3 @@
-# https://towardsdatascience.com/building-neural-network-using-pytorch-84f6e75f9a
-
-# train our data set
-# training
-# payoff, game, create prediction of of attack
-# loss function
-
-# look at the tutorials for training data set
-
-# review of literature
-# thoughts of deep learning
-# plot some graphs, prediction accuracy
-# different results for each game seperately
-# show results
-# what if you change number of nodes and layers for hidden layers
-# train in different game, train single neural net
-# wrap up
-
-
-# no convolutions
-
 import torch
 from torch import nn
 from collections import OrderedDict
@@ -81,8 +60,8 @@ def main():
     # Define a transform to normalize the data
     transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,)),])
 
-    # Download and load the training data\
-    trainset = datasets.MNIST('~/Users/alyssahuque/Downloads/Data/24Target-9Resource/Group1/Set1/Game_1', download=True, train=True, transform=transform)
+    # Download and load the training data
+    trainset = datasets.MNIST('~/Downloads/Data/24Target-9Resource/Group1/Set1/Game_1', download=True, train=True, transform=transform)
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=64, shuffle=True)
 
     model = nn.Sequential(nn.Linear(784, 128),nn.ReLU(),nn.Linear(128, 64),nn.ReLU(),nn.Linear(64, 10),nn.LogSoftmax(dim=1))
@@ -91,6 +70,8 @@ def main():
     # Optimizers require the parameters to optimize and a learning rate
     optimizer = torch.optim.SGD(model.parameters(), lr=0.003)
     xaxis = []
+    yaxis = []
+    yy = 1
     for e in range(5):
     	running_loss = 0
     	for data, labels in trainloader:
@@ -107,8 +88,10 @@ def main():
 
     		running_loss += loss.item()
     	else:
-    		print(f"Training loss: {running_loss/len(trainloader)}")
-    		xaxis.append(running_loss/len(trainloader))
+            print(f"Training loss: {running_loss/len(trainloader)}")
+            xaxis.append(running_loss/len(trainloader))
+            yaxis.append(yy)
+            yy += 1
 
     	
     # x axis values 
@@ -123,7 +106,7 @@ def main():
     # naming the y axis 
     plt.ylabel('each backward pass') 
 
-    # giving a title to my graph 
+    # graph title
     plt.title('Training DNN') 
 
     # function to show the plot 
